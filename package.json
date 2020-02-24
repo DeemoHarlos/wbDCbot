@@ -1,7 +1,7 @@
 {
-	"name": "Deemo's Bot",
+	"name": "ebDCbot",
 	"version": "1.0.0",
-	"description": "I LOVE STARSNOW",
+	"description": "temp",
 	"main": "main.js",
 	"author": "Deemo Harlos",
 	"dependencies": {
