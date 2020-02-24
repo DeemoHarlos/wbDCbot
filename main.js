@@ -45,7 +45,7 @@ bot.on('message', msg => {
 	    msg.channel.id === '678957008921165825') {
 
 		ping(msg)
-		else if (msg.content === '!count') count(msg)
+		if (msg.content === '!count') count(msg)
 
 	}
 });
