@@ -1,0 +1,10 @@
+{
+	"name": "Deemo's Bot",
+	"version": "1.0.0",
+	"description": "I LOVE STARSNOW",
+	"main": "main.js",
+	"author": "Deemo Harlos",
+	"dependencies": {
+		"discord.js": "^11.5.1"
+	}
+}
