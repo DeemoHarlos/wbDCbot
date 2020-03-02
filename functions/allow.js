@@ -27,7 +27,6 @@ function allow(msg, bot, db) {
 
 module.exports = function(bot, db) {
 	bot.on('message', msg => {
-		// add exp manual
 		if (util.cmd(msg, '!allow'))
 			if (util.checkAdmin(msg) && util.checkChannel(msg))
 				allow(msg, bot, db)

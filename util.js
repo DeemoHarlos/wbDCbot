@@ -21,7 +21,8 @@ module.exports = {
 	},
 	cmd: function(msg, cmd) {
 		return (msg.content === cmd) ||
-		       (msg.content.slice(0, cmd.length+1) === (cmd+' '))
+		       (msg.content.slice(0, cmd.length+1) === (cmd+' ' )) ||
+		       (msg.content.slice(0, cmd.length+1) === (cmd+'\n'))
 	},
 	debugSend: function(err, ch) {
 		if (ch) ch.send(err)

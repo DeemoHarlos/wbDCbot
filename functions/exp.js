@@ -61,7 +61,7 @@ function listChannelExp(msg, bot, db) {
 		if (err) util.debugSend(`Find Channels error: ${err}`, bot.channels.get(config.dbgChannel))
 		else {
 			var str = '**[ 各頻道經驗值比率列表 ]**\n'
-			docs.slice(0,100).forEach((e,i,a)=>{
+			docs.forEach((e,i,a)=>{
 				str += `${bot.channels.get(e.channelId)} : ${e.expRatio}\n`
 			})
 			msg.channel.send(str)
@@ -94,6 +94,47 @@ function showExp(msg, bot, db) {
 	})
 }
 
+function showTop(msg, bot, db) {
+	var page = Number(msg.content.split(' ')[2]) || 1
+	let User = db.model('User', userSchema)
+	User.find((err, docs)=>{
+		if (err) util.debugSend(`Find Users error: ${err}`, bot.channels.get(config.dbgChannel))
+		else {
+			var str = `**[ 排行榜 ]** 頁 ${page}/${Math.ceil(docs.length/10)}\n`
+			let guild = bot.guilds.get(config.guildId)
+			let start = (page - 1) * 10 + 0
+			docs.sort((a,b)=>(b.exp - a.exp))
+			//set rank
+			var rank = 0
+			var exp = -1
+			docs.forEach((e,i,a)=>{
+				if (exp === e.exp) e.rank = rank
+				else {
+					rank = i + 1
+					exp = e.exp
+					e.rank = rank
+				}
+			})
+			let sliced = docs.slice(start,start + 10)
+			if (sliced.length) {
+				sliced.forEach(async(e,i,a)=>{
+					let member = guild.members.get(e.userId)
+					let substr = `${e.rank <= 3 ? `:small_orange_diamond:` : `:white_small_square:`}**${e.rank}** \\\| `
+					if (member)
+						substr += `**${member.user.tag}**${member.nickname ? ` aka **${member.nickname}**` : ''}`
+					else {
+						let user = await bot.fetchUser(e.userId)
+						substr += user ? `${user.tag} *(absent)*` : '*Deleted User*'
+					}
+					substr += ` ( ${e.exp} EXP )\n`
+					str += substr
+				})
+				msg.channel.send(str)
+			} else msg.channel.send(`${sliced.length} 頁碼超出範圍。總頁數為 ${Math.ceil(docs.length/10)}`)
+		}
+	})
+}
+
 module.exports = function(bot, db) {
 	bot.on('message', msg => {
 		// Ignore bot messages and non-guild messages.
@@ -103,28 +144,33 @@ module.exports = function(bot, db) {
 		if (util.is(msg.channel.type, ['text'])) addExp(msg, bot, db)
 
 		// set channel exp ratio
-		if (util.cmd(msg, '!set expRatio'))
+		if (util.cmd(msg, '!exp setRatio'))
 			if (util.checkAdmin(msg) && util.checkChannel(msg))
 				setChannelExp(msg, bot, db)
 
 		// list exp ratio
-		if (util.cmd(msg, '!show expRatio'))
-			if (util.checkChannel(msg)) listChannelExp(msg, bot, db)
+		if (util.cmd(msg, '!exp showRatio'))
+			if (util.checkChannel(msg))
+				listChannelExp(msg, bot, db)
 
 		// init exp
-		if (util.cmd(msg, '!init exp'))
+		if (util.cmd(msg, '!exp init'))
 			if (util.checkAdmin(msg) && util.checkChannel(msg))
 				initExp(msg, bot, db)
 
 		// add exp manual
-		if (util.cmd(msg, '!add exp'))
+		if (util.cmd(msg, '!exp add'))
 			if (util.checkAdmin(msg) && util.checkChannel(msg))
 				addExpTo(msg, bot, db)
 
 		// show exp
-		if (util.cmd(msg, '!show exp'))
+		if (util.cmd(msg, '!exp show'))
 			if (util.checkChannel(msg))
 				showExp(msg, bot, db)
-	})
 
+		// show top users
+		if (util.cmd(msg, '!exp top'))
+			if (util.checkChannel(msg))
+				showTop(msg, bot, db)
+	})
 }
