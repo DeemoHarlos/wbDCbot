@@ -1,5 +1,5 @@
-const util = require('./util.js')
-const config = require('./config.js')
+const util = require('../util.js')
+const config = require('../config.js')
 
 // count message
 function count(ch) {

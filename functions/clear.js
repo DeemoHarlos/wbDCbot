@@ -1,5 +1,5 @@
-const util = require('./util.js')
-const config = require('./config.js')
+const util = require('../util.js')
+const config = require('../config.js')
 
 function clear(msg, bot) {
 	let dbg = bot.channels.get(config.dbgChannel)

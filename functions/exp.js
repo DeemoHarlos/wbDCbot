@@ -1,8 +1,8 @@
-const util = require('./util.js')
-const config = require('./config.js')
+const util = require('../util.js')
+const config = require('../config.js')
 
-const userSchema = require('./schemas/user.js')
-const channelSchema = require('./schemas/channel.js')
+const userSchema = require('../schemas/user.js')
+const channelSchema = require('../schemas/channel.js')
 
 function addExp(msg, bot, db) {
 	let Channel = db.model('Channel', channelSchema)
@@ -34,7 +34,7 @@ function addExpTo(msg, bot, db) {
 			User.findOneAndUpdate({userId: member.id}, {$inc: {exp: incr}},
 				{upsert: true, new: true}, (err,doc)=>{
 				if (err) util.debugSend(`Update Users error: ${err}`, msg.channel)
-				else util.debugSend(`${member} 經驗值增加了${incr}，目前經驗值為${doc.exp}。`, msg.channel)
+				else util.debugSend(`${member} 經驗值增加了 ${incr}，目前經驗值為 ${doc.exp} 。`, msg.channel)
 			})
 		}
 	})

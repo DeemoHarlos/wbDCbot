@@ -22,9 +22,11 @@ bot.on('ready', () => {
 
 require('./debug.js')(bot)
 require('./ping.js')(bot)
-require('./count.js')(bot)
-require('./clear.js')(bot)
-require('./exp.js')(bot, mongoose)
+
+require('./functions/allow.js')(bot, mongoose)
+require('./functions/count.js')(bot)
+require('./functions/clear.js')(bot)
+require('./functions/exp.js')(bot, mongoose)
 
 // login
 bot.login(auth.token)

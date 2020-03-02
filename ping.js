@@ -12,10 +12,11 @@ function ping(msg) {
 }
 
 module.exports = function(bot) {
-	// Ignore bot messages.
 	bot.on('message', msg => {
+		// Ignore bot messages.
 		if (msg.author.bot) return
-		if (util.checkChannel(msg))
+		// use is instead of checkChannel to avoid report
+		if (util.is(msg.channel.id, config.availChannels))
 			ping(msg)
 	})
 }
