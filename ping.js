@@ -1,16 +1,21 @@
 const util = require('./util.js')
 const config = require('./config.js')
 
+const note = ['C','D','E','F','G','A','B']
+const noteName = ['Do','Re','Mi','Fa','So','La','Si']
+
 function ping(msg) {
-	if (msg.content === 'Fa') {
-		msg.channel.send('Do')
-	}
+	if (util.is(msg.content, note))
+		msg.channel.send(util.random(note))
+	if (util.is(msg.content, noteName))
+		msg.channel.send(util.random(noteName))
 }
 
 module.exports = function(bot) {
+	// Ignore bot messages.
 	bot.on('message', msg => {
-		if (util.is(msg.channel.id, [config.dbgChannel])) {
+		if (msg.author.bot) return
+		if (util.checkChannel(msg))
 			ping(msg)
-		}
 	})
 }

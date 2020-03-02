@@ -13,5 +13,5 @@ module.exports = {
 	availChannels: [spmChannel, cmdChannel, dbgChannel],
 	adminRole: adminRole,
 	wbRole: wbRole,
-	wbRoleExp: 5000
+	wbRoleExp: 2500
 }

@@ -15,6 +15,10 @@ module.exports = {
 		})
 		return flag
 	},
+	random: function(arr) {
+		let i = Math.floor(Math.random() * arr.length)
+		return arr[i]
+	},
 	cmd: function(msg, cmd) {
 		return (msg.content === cmd) ||
 		       (msg.content.slice(0, cmd.length+1) === (cmd+' '))
