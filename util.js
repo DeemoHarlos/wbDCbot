@@ -20,13 +20,25 @@ module.exports = {
 		return arr[i]
 	},
 	cmd: function(msg, cmd) {
-		return (msg.content === cmd) ||
-		       (msg.content.slice(0, cmd.length+1) === (cmd+' ' )) ||
-		       (msg.content.slice(0, cmd.length+1) === (cmd+'\n'))
+		let cmd2 = config.prefix+cmd+' '
+		let cmd3 = config.prefix+cmd+'\n'
+		return (msg.content === config.prefix+cmd) ||
+		       (msg.content.slice(0, cmd2.length) === cmd2) ||
+		       (msg.content.slice(0, cmd3.length) === cmd3)
 	},
 	debugSend: function(err, ch) {
 		if (ch) ch.send(err)
-		else console.log(err)
+		console.log(err)
+	},
+	tryCatch: function(func, bot) {
+		try {
+			func()
+		} catch (err) {
+			let errorMsg = `[ ERROR ] ${err.name}: ${err.message}`
+			console.log(errorMsg)
+			if (bot && bot.channels && bot.channels.get && bot.channels.get(config.dbgChannel))
+			bot.channels.get(config.dbgChannel).send(errorMsg)
+		}
 	},
 	checkAdmin: function(msg) {
 		if (!msg.member.roles.has(config.adminRole)) {

@@ -13,10 +13,12 @@ function ping(msg) {
 
 module.exports = function(bot) {
 	bot.on('message', msg => {
-		// Ignore bot messages.
-		if (msg.author.bot) return
-		// use is instead of checkChannel to avoid report
-		if (util.is(msg.channel.id, config.availChannels))
-			ping(msg)
+		util.tryCatch(()=>{
+			// Ignore bot messages.
+			if (msg.author.bot) return
+			// use is instead of checkChannel to avoid report
+			if (util.is(msg.channel.id, config.availChannels))
+				ping(msg)
+		}, bot)
 	})
 }

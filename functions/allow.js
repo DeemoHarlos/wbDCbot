@@ -27,8 +27,10 @@ function allow(msg, bot, db) {
 
 module.exports = function(bot, db) {
 	bot.on('message', msg => {
-		if (util.cmd(msg, '!allow'))
-			if (util.checkAdmin(msg) && util.checkChannel(msg))
-				allow(msg, bot, db)
+		util.tryCatch(()=>{
+			if (util.cmd(msg, 'allow'))
+				if (util.checkAdmin(msg) && util.checkChannel(msg))
+					allow(msg, bot, db)
+		}, bot)
 	})
 }

@@ -1,3 +1,4 @@
+const prefix     = '!'
 const guildId    = '678950295333765120'
 const spmChannel = '678957008921165825'
 const cmdChannel = '678952437641641984'
@@ -7,6 +8,7 @@ const adminRole  = '678953825905672195'
 const wbRole     = '678954366190747648'
 
 module.exports = {
+	prefix: prefix,
 	guildId: guildId,
 	spmChannel: spmChannel,
 	cmdChannel: cmdChannel,
@@ -15,5 +17,5 @@ module.exports = {
 	generalChannel: generalChannel,
 	adminRole: adminRole,
 	wbRole: wbRole,
-	wbRoleExp: 2500
+	wbRoleExp: 20000
 }

@@ -26,11 +26,13 @@ function clear(msg, bot) {
 
 module.exports = function(bot) {
 	bot.on('message', msg => {
-		// Ignore bot messages.
-		if (msg.author.bot) return
-		// clear, only for debug channel
-		if (util.is(msg.channel.id, [config.dbgChannel])) {
-			if (msg.content === '!clear') clear(msg, bot)
-		}
+		util.tryCatch(()=>{
+			// Ignore bot messages.
+			if (msg.author.bot) return
+			// clear, only for debug channel
+			if (util.is(msg.channel.id, [config.dbgChannel])) {
+				if (util.cmd(msg, 'clear')) clear(msg, bot)
+			}
+		}, bot)
 	})
 }
